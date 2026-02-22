@@ -22,8 +22,17 @@ using Infrastructure.ConfigurationHandler;
 
 namespace Presentation.DI;
 
+/// <summary>
+/// DI container configuration.
+/// </summary>
 public static class DIConfig
 {
+    /// <summary>
+    /// Configures the DI container.
+    /// </summary>
+    /// <returns>
+    /// Configured service provider.
+    /// </returns>
     public static ServiceProvider ConfigureServices()
     {
         ServiceCollection services = new();
@@ -54,8 +63,7 @@ public static class DIConfig
         services.AddDbContext<AurSearchContext>((sp, options) =>
         {
             var config = sp.GetRequiredService<IConfigurationService>();
-            string? connectionString = config.GetPgDbConnectionString();
-            if (string.IsNullOrWhiteSpace(connectionString)) throw new InvalidOperationException("db connection string required");
+            string connectionString = config.GetPgDbConnectionString();
             options.UseNpgsql(connectionString);
         }, ServiceLifetime.Scoped);
 

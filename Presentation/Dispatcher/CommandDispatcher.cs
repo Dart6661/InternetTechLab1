@@ -1,10 +1,13 @@
 using System.CommandLine;
 using Application.Services.Interfaces;
-using Domain.Models;
 using Shared.Dtos;
 
 namespace Presentation.Dispatcher;
 
+
+/// <summary>
+/// Input/output dispather.
+/// </summary>
 public class CommandDispatcher
 {
     private readonly IAurService _aur;
@@ -63,9 +66,13 @@ public class CommandDispatcher
         _root.Subcommands.Add(_configCommand);
     }
 
+    /// <summary>
+    /// Processes incoming arguments and executes commands.
+    /// </summary>
+    /// <param name="args">Command line arguments.</param>
     public async Task ProcessCommand(string[] args) => await _root.Parse(args).InvokeAsync();
 
-    public async Task FindCommand(ParseResult args, CancellationToken token)
+    private async Task FindCommand(ParseResult args, CancellationToken token)
     {
         List<AurPackageDto> packages = await _aur.FindPackageAsync(args.GetValue(_fileNameOption) ?? throw new ArgumentNullException("file name required"));
         Console.WriteLine("\npackages:");
@@ -74,7 +81,7 @@ public class CommandDispatcher
         Console.WriteLine();
     }
 
-    public async Task LoadCommand(ParseResult args, CancellationToken token)
+    private async Task LoadCommand(ParseResult args, CancellationToken token)
     {
         ArticleDto article = await _scraper.LoadArticleAsync(args.GetValue(_urlOption) ?? throw new ArgumentNullException("url required"));
         Console.WriteLine("\narticle:");
@@ -88,7 +95,7 @@ public class CommandDispatcher
         Console.WriteLine();
     }
 
-    public async Task GetCommand(ParseResult args, CancellationToken token)
+    private async Task GetCommand(ParseResult args, CancellationToken token)
     {
         var pack = args.GetValue(_packageDbOption);
         var art = args.GetValue(_articleDbOption);
@@ -135,7 +142,7 @@ public class CommandDispatcher
         Console.WriteLine();
     }
 
-    public async Task ConfigCommand(ParseResult args, CancellationToken token)
+    private async Task ConfigCommand(ParseResult args, CancellationToken token)
     {
         Console.WriteLine("\nconfiguration:");
         if (args.GetValue(_infoOption))
