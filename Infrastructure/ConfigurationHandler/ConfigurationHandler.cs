@@ -5,7 +5,7 @@ using Application.ConfigurationHandler.Interfaces;
 namespace Infrastructure.ConfigurationHandler;
 
 /// <summary>
-/// Application configuration handler working with the filename file.
+/// Application configuration handler working with the file.
 /// </summary>
 /// <param name="filename">Configuration file name.</param>
 public class ConfigurationHandler(string filename) : IConfigurationHandler

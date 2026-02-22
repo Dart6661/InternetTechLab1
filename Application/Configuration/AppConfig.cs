@@ -1,5 +1,8 @@
 namespace Application.Configuration;
 
+/// <summary>
+/// Represents the application configuration.
+/// </summary>
 public class AppConfig
 {
     public AurConfig AurConfig { get; set; } = new();
