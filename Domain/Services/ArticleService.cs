@@ -7,10 +7,22 @@ using Shared.Dtos;
 
 namespace Domain.Services;
 
+/// <summary>
+/// Service for working with articles.
+/// </summary>
+/// <param name="articleRepos">Articles repository.</param>
 public class ArticleSevice(IArticleRepository articleRepos) : IArticleService
 {
     private readonly IArticleRepository _articleRepos = articleRepos;
 
+    /// <summary>
+    /// Retrieves an article by its url.
+    /// </summary>
+    /// <param name="url">Article url.</param>
+    /// <returns>
+    /// Article data.
+    /// </returns>
+    /// <exception cref="ArticleNotFoundException">Thrown when article cannot be found.</exception>
     public async Task<ArticleDto> GetArticleAsync(string url)
     {
         ArgumentException.ThrowIfNullOrEmpty(url);
@@ -19,6 +31,12 @@ public class ArticleSevice(IArticleRepository articleRepos) : IArticleService
         return articleDto;
     }
 
+    /// <summary>
+    /// Retrieves all articles.
+    /// </summary>
+    /// <returns>
+    /// List of articles data.
+    /// </returns>
     public async Task<List<ArticleDto>> GetAllArticlesAsync()
     {
         List<Article> articles = await _articleRepos.GetAllArticlesAsync();
@@ -26,6 +44,10 @@ public class ArticleSevice(IArticleRepository articleRepos) : IArticleService
         return articleDtos;
     }
 
+    /// <summary>
+    /// Adds new article data to storage.
+    /// </summary>
+    /// <param name="articleDto">Article data.</param>
     public async Task AddAsync(ArticleDto articleDto)
     {
         ArgumentNullException.ThrowIfNull(articleDto);
