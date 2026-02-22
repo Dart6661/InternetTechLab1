@@ -68,13 +68,13 @@ public static class ArticleMapper
     /// <returns>
     /// Article.
     /// </returns>
-    public static Article GetArticle(WebArticle webArticle) => new()
-    {
-        Id = webArticle.Id.ToString(),
-        URL = webArticle.URL,
-        Title = webArticle.Title,
-        Tags = webArticle.Tags,
-        Metatags = webArticle.Metatags,
-        Links = webArticle.Links
-    };
+    public static Article GetArticle(WebArticle webArticle) => new
+    (
+        webArticle.Id.ToString(),
+        webArticle.URL,
+        webArticle.Title,
+        webArticle.Tags,
+        webArticle.Metatags,
+        webArticle.Links
+    );
 }

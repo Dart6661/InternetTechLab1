@@ -15,13 +15,13 @@ public static class ArticleMapper
         article.Links
     );
 
-    public static Article GetArticle(ArticleDto dto) => new()
-    {
-        Id = dto.Id,
-        URL = dto.URL,
-        Title = dto.Title,
-        Tags = dto.Tags,
-        Metatags = dto.Metatags,
-        Links = dto.Links
-    };
+    public static Article GetArticle(ArticleDto dto) => new
+    (
+        dto.Id,
+        dto.URL,
+        dto.Title,
+        dto.Tags,
+        dto.Metatags,
+        dto.Links
+    );
 }
