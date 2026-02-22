@@ -6,10 +6,21 @@ using Infrastructure.MongoDb.Mapping;
 
 namespace Infrastructure.WebScraping;
 
+/// <summary>
+/// Web article parser.
+/// </summary>
+/// <param name="factory">Factory for creating HttpClient with the required configuration.</param>
 public class WebScraper(IHttpClientFactory factory) : IWebScraper
 {
     private readonly HttpClient _httpClient = factory.CreateClient("ScraperClient");
 
+    /// <summary>
+    /// Downloads and parses web article by URL.
+    /// </summary>
+    /// <param name="url">Source URL of the article.</param>
+    /// <returns>
+    /// Dto containing parsed article information.
+    /// </returns>
     public async Task<ArticleDto> LoadArticleAsync(string url)
     {
         string htmlRaw = await _httpClient.GetStringAsync(url);
