@@ -16,8 +16,8 @@ public class CommandDispatcher
     private readonly Option<string> _urlOption;
     private readonly Option<string> _pgDbConnectionOption;
     private readonly Option<string> _mongoDbConnectionOption;
-    private readonly Option<bool> _mongoDbOption;
-    private readonly Option<bool> _pgDbOption;
+    private readonly Option<bool> _articleDbOption;
+    private readonly Option<bool> _packageDbOption;
     private readonly Option<bool> _allOption;
     private readonly Option<bool> _infoOption;
     private readonly Option<bool> _setOption;
@@ -33,8 +33,8 @@ public class CommandDispatcher
         _scraper = scraper;
         _config = config;
 
-        _pgDbOption = new("--postgresql", "-p") { Description = "selection of the postgresql database" };
-        _mongoDbOption = new("--mongo", "-m") { Description = "selection of the mongo database" };
+        _packageDbOption = new("--package") { Description = "select a package repository" };
+        _articleDbOption = new("--article") { Description = "select the article repository" };
         _fileNameOption = new("--file-name", "-n") { Description = "name of the requested file" };
         _urlOption = new("--url", "-u") { Description = "full resource url" };
         _allOption = new("--all", "-a") { Description = "get all values" };
@@ -51,7 +51,7 @@ public class CommandDispatcher
         _loadCommand = new("load", "load article data") { _urlOption };
         _loadCommand.SetAction(Safe(LoadCommand));
 
-        _getCommand = new("get", "get data from the database") { _pgDbOption, _mongoDbOption, _fileNameOption, _urlOption, _allOption };
+        _getCommand = new("get", "get data from the database") { _packageDbOption, _articleDbOption, _fileNameOption, _urlOption, _allOption };
         _getCommand.SetAction(Safe(GetCommand));
 
         _configCommand = new("config", "configuration parameters") { _infoOption, _setOption, _pgDbConnectionOption, _mongoDbConnectionOption };
@@ -90,9 +90,9 @@ public class CommandDispatcher
 
     public async Task GetCommand(ParseResult args, CancellationToken token)
     {
-        var pg = args.GetValue(_pgDbOption);
-        var mongo = args.GetValue(_mongoDbOption);
-        if (pg)
+        var pack = args.GetValue(_packageDbOption);
+        var art = args.GetValue(_articleDbOption);
+        if (pack)
         {
             if (args.GetValue(_allOption))
             {
@@ -107,7 +107,7 @@ public class CommandDispatcher
                 Console.WriteLine($"id: {package.ID}\nname: {package.Name}\ndescription: {package.Description}\nversion: {package.Version}\nurl: {package.URL}");
             }
         }
-        if (mongo)
+        if (art)
         {
             if (args.GetValue(_allOption))
             {
@@ -128,9 +128,9 @@ public class CommandDispatcher
                 foreach (var link in article.Links) Console.WriteLine($"{link.Key} - {link.Value}");
             }
         }
-        if (!pg && !mongo)
+        if (!pack && !art)
         {
-            Console.WriteLine("database must be specified");
+            Console.WriteLine("repository must be specified");
         }
         Console.WriteLine();
     }
