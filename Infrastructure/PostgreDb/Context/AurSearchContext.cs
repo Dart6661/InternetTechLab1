@@ -3,6 +3,10 @@ using Domain.Models;
 
 namespace Infrastructure.PostgreDb.Context;
 
+/// <summary>
+/// Represents a Relational database context for module A.
+/// </summary>
+/// <param name="options">The options to be used by a DbContext.</param>
 public class AurSearchContext(DbContextOptions options) : DbContext(options)
 {
     public DbSet<AurPackage> Packages { get; set; } = null!;

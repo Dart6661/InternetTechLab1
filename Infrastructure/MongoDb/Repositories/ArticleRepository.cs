@@ -6,10 +6,21 @@ using Infrastructure.MongoDb.Mapping;
 
 namespace Infrastructure.MongoDb.Repositories;
 
+/// <summary>
+/// Repository for working with the articles collection.
+/// </summary>
+/// <param name="webArticles">Typed collection in MongoDB.</param>
 public class ArticleRepository(IMongoCollection<WebArticle> webArticles) : IArticleRepository
 {
     private readonly IMongoCollection<WebArticle> _webArticles = webArticles;
 
+    /// <summary>
+    /// Retrieves a article by its url.
+    /// </summary>
+    /// <param name="url">Article url</param>
+    /// <returns>
+    /// Article if found, otherwise null.
+    /// </returns>
     public async Task<Article?> GetArticleAsync(string url)
     {
         var filter = Builders<WebArticle>.Filter.Eq(a => a.URL, url);
@@ -19,6 +30,12 @@ public class ArticleRepository(IMongoCollection<WebArticle> webArticles) : IArti
         return article;
     }
 
+    /// <summary>
+    /// Retrieves all articles from storage.
+    /// </summary>
+    /// <returns>
+    /// List containing all articles.
+    /// </returns>
     public async Task<List<Article>> GetAllArticlesAsync()
     {
         var webArticles = await _webArticles.Find(_ => true).ToListAsync();
@@ -26,6 +43,10 @@ public class ArticleRepository(IMongoCollection<WebArticle> webArticles) : IArti
         return allArticles;
     }
 
+    /// <summary>
+    /// Inserts a new article into the storage.
+    /// </summary>
+    /// <param name="article">Article to add</param>
     public async Task AddAsync(Article article)
     {
         WebArticle webArticle = ArticleMapper.GetWebArticle(article);

@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Infrastructure.PostgreDb.Context;
 
+/// <summary>
+/// Factory for design-time initialization of the database context.
+/// </summary>
 public class AurSearchContextFactory : IDesignTimeDbContextFactory<AurSearchContext>
 {
     public AurSearchContext CreateDbContext(string[] args)

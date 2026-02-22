@@ -1,5 +1,8 @@
 namespace Infrastructure.AUR.Models;
 
+/// <summary>
+/// Represents a raw package from AUR API response.
+/// </summary>
 public class AurPackageRaw
 {
     public int ID { get; set; }
