@@ -1,6 +1,6 @@
-### AURSearch
+# AURSearch
 
-### Purpose
+## Purpose
 Learning how to work with public APIs and web scraping. The program can access APIs and parse web pages.
 
 
