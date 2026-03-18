@@ -1,0 +1,4 @@
+**/bin/
+**/obj/
+.vscode/
+/src/Presentation/appsettings.json
